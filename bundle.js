@@ -19682,8 +19682,9 @@
 	            user.name
 	          );
 	        })
-	      )
-	    ), React.createElement(Weather, null);
+	      ),
+	      React.createElement(Weather, null)
+	    );
 	  }
 	});
 

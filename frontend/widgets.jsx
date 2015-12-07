@@ -31,8 +31,8 @@ var Widget = React.createClass({
             })
           }
         </ul>
-      </div>,
-      < Weather />
+        < Weather />
+      </div>
     );
   }
 });
