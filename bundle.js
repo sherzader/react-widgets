@@ -45,10 +45,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
+	    ReactDOM = __webpack_require__(158),
+	    Widget = __webpack_require__(159);
 
+	var users = ["nancy", "frank", "narcy", "francis"];
 	document.addEventListener('DOMContentLoaded', function () {
-	  ReactDOM.render(React.createElement('widget', null), document.getElementById('root'));
+	    ReactDOM.render(React.createElement(Widget, { users: users }), document.getElementById('root'));
 	});
 
 /***/ },
@@ -19637,6 +19639,54 @@
 
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Widget = React.createClass({
+	  displayName: "Widget",
+
+	  getInitialState: function () {
+	    return { searchString: "" };
+	  },
+
+	  search: function (event) {
+	    this.setState({ searchString: event.currentTarget.value });
+	  },
+
+	  filteredUsers: function () {
+	    var regex = new RegExp(this.state.searchString);
+	    return this.props.users.filter(function (user) {
+	      return user.search(regex) > -1;
+	    });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement("input", { type: "text",
+	        onChange: this.search,
+	        value: this.state.searchString }),
+	      React.createElement(
+	        "ul",
+	        null,
+	        this.filteredUsers().map(function (user) {
+	          return React.createElement(
+	            "li",
+	            null,
+	            user
+	          );
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Widget;
 
 /***/ }
 /******/ ]);
