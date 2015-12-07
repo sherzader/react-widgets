@@ -8,7 +8,7 @@ var Weather = React.createClass({
 
   },
   getWeather: function(lat, lon){
-    var weather_widget = this;
+    var weatherWidget = this;
     var request = new XMLHttpRequest();
     request.open('GET',
       'http://api.openweathermap.org/data/2.5/weather?lat=' +
@@ -18,25 +18,28 @@ var Weather = React.createClass({
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         var resp = JSON.parse(request.responseText);
-        console.log(resp);
-        weather_widget.setState({name: resp.name, temp: resp.main.temp,
+        //certain weather attributes to display:
+        weatherWidget.setState({name: resp.name, temp: resp.main.temp,
           humidity: resp.main.humidity, wind: resp.wind.speed});
       } else {
         // We reached our target server, but it returned an error
-        console.log("else");
+        console.log("Server returned error");
       }
     };
     request.onerror = function() {
       // There was a connection error of some sort
-      console.log("no");
+      console.log("Connection error");
     };
 
     request.send();
   },
   componentDidMount: function(){
-    var weather_widget = this;
+    var weatherWidget = this;
     navigator.geolocation.getCurrentPosition(function(position) {
-      weather_widget.getWeather(position.coords.latitude, position.coords.longitude);
+      weatherWidget.getWeather(
+        position.coords.latitude,
+        position.coords.longitude
+      );
     });
   },
   render: function(){

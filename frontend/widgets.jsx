@@ -1,6 +1,7 @@
 var React = require('react'),
     Clock = require('./clock_widget.jsx'),
-    Weather = require('./weather_widget.jsx');
+    Weather = require('./weather_widget.jsx'),
+    Tabs = require('./tabs.jsx');
 
 var Widget = React.createClass({
   getInitialState: function(){
@@ -21,6 +22,7 @@ var Widget = React.createClass({
   render: function(){
     return(
       <div>
+        <Tabs tabs={this.props.tabs}/>
         <input type="text"
                onChange = {this.search}
                value={this.state.searchString}>

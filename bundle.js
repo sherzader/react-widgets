@@ -49,8 +49,9 @@
 	    Widget = __webpack_require__(159);
 
 	var users = [{ name: "nancy", id: 1 }, { name: "frank", id: 2 }, { name: "narcy", id: 3 }, { name: "francis", id: 4 }];
+	var tabs = [{ title: "Home", content: "Hi User!", id: 1 }, { title: "Trees", content: "Redwood, Pine, Douglas Fir", id: 2 }, { title: "Cacti", content: "Pereskioideae, Cactoideae", id: 3 }];
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(Widget, { users: users }), document.getElementById('root'));
+	  ReactDOM.render(React.createElement(Widget, { users: users, tabs: tabs }), document.getElementById('root'));
 	});
 
 /***/ },
@@ -19646,7 +19647,8 @@
 
 	var React = __webpack_require__(1),
 	    Clock = __webpack_require__(160),
-	    Weather = __webpack_require__(161);
+	    Weather = __webpack_require__(161),
+	    Tabs = __webpack_require__(162);
 
 	var Widget = React.createClass({
 	  displayName: 'Widget',
@@ -19670,6 +19672,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(Tabs, { tabs: this.props.tabs }),
 	      React.createElement('input', { type: 'text',
 	        onChange: this.search,
 	        value: this.state.searchString }),
@@ -19738,32 +19741,32 @@
 	  },
 	  componentWillUnmount: function () {},
 	  getWeather: function (lat, lon) {
-	    var weather_widget = this;
+	    var weatherWidget = this;
 	    var request = new XMLHttpRequest();
 	    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&APPID=645c5d39c7603f17e23fcaffcea1a3c1', true);
 
 	    request.onload = function () {
 	      if (request.status >= 200 && request.status < 400) {
 	        var resp = JSON.parse(request.responseText);
-	        console.log(resp);
-	        weather_widget.setState({ name: resp.name, temp: resp.main.temp,
+	        //certain weather attributes to display:
+	        weatherWidget.setState({ name: resp.name, temp: resp.main.temp,
 	          humidity: resp.main.humidity, wind: resp.wind.speed });
 	      } else {
 	        // We reached our target server, but it returned an error
-	        console.log("else");
+	        console.log("Server returned error");
 	      }
 	    };
 	    request.onerror = function () {
 	      // There was a connection error of some sort
-	      console.log("no");
+	      console.log("Connection error");
 	    };
 
 	    request.send();
 	  },
 	  componentDidMount: function () {
-	    var weather_widget = this;
+	    var weatherWidget = this;
 	    navigator.geolocation.getCurrentPosition(function (position) {
-	      weather_widget.getWeather(position.coords.latitude, position.coords.longitude);
+	      weatherWidget.getWeather(position.coords.latitude, position.coords.longitude);
 	    });
 	  },
 	  render: function () {
@@ -19803,6 +19806,54 @@
 	});
 
 	module.exports = Weather;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Tabs = React.createClass({
+	  displayName: 'Tabs',
+
+	  getInitialState: function () {
+	    return { focused: 0 };
+	  },
+	  selected: function (event) {
+	    this.setState({ focused: event.currentTarget.id });
+	  },
+	  render: function () {
+	    var self = this;
+	    return React.createElement(
+	      'ul',
+	      null,
+	      this.props.tabs.map(function (header, index) {
+	        var style = '';
+	        if (self.state.focused === index) {
+	          style = "focused";
+	          return React.createElement(
+	            'b',
+	            null,
+	            React.createElement(
+	              'li',
+	              { key: header.id, onClick: this.selected,
+	                className: style },
+	              header.title
+	            )
+	          );
+	        }
+	        return React.createElement(
+	          'li',
+	          { key: header.id, onClick: this.selected,
+	            className: style },
+	          header.title
+	        );
+	      })
+	    );
+	  }
+	});
+
+	module.exports = Tabs;
 
 /***/ }
 /******/ ]);
