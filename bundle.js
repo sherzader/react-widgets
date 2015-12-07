@@ -19731,10 +19731,10 @@
 	var React = __webpack_require__(1);
 
 	var Weather = React.createClass({
-	  displayName: 'Weather',
+	  displayName: "Weather",
 
 	  getInitialState: function () {
-	    return { weather: "" };
+	    return { name: "", temp: "", humidity: "", wind: "" };
 	  },
 	  componentWillUnmount: function () {},
 	  getWeather: function (lat, lon) {
@@ -19746,7 +19746,8 @@
 	      if (request.status >= 200 && request.status < 400) {
 	        var resp = JSON.parse(request.responseText);
 	        console.log(resp);
-	        weather_widget.setState({ weather: resp.main.temp });
+	        weather_widget.setState({ name: resp.name, temp: resp.main.temp,
+	          humidity: resp.main.humidity, wind: resp.wind.speed });
 	      } else {
 	        // We reached our target server, but it returned an error
 	        console.log("else");
@@ -19767,9 +19768,36 @@
 	  },
 	  render: function () {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
-	      this.state.weather
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          "Current city: ",
+	          this.state.name
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          "Temperature (K): ",
+	          this.state.temp
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          "Humidity: ",
+	          this.state.humidity
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          "Wind speed (kph): ",
+	          this.state.wind
+	        )
+	      )
 	    );
 	  }
 	});

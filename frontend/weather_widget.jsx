@@ -2,7 +2,7 @@ var React = require('react');
 
 var Weather = React.createClass({
   getInitialState: function(){
-    return { weather: ""};
+    return { name: "", temp: "", humidity: "", wind: ""};
   },
   componentWillUnmount: function(){
 
@@ -19,7 +19,8 @@ var Weather = React.createClass({
       if (request.status >= 200 && request.status < 400) {
         var resp = JSON.parse(request.responseText);
         console.log(resp);
-        weather_widget.setState({weather: resp.main.temp});
+        weather_widget.setState({name: resp.name, temp: resp.main.temp,
+          humidity: resp.main.humidity, wind: resp.wind.speed});
       } else {
         // We reached our target server, but it returned an error
         console.log("else");
@@ -41,7 +42,12 @@ var Weather = React.createClass({
   render: function(){
     return(
       <div>
-        {this.state.weather}
+        <ul>
+          <li>Current city: {this.state.name}</li>
+          <li>Temperature (K): {this.state.temp}</li>
+          <li>Humidity: {this.state.humidity}</li>
+          <li>Wind speed (kph): {this.state.wind}</li>
+        </ul>
       </div>
     );
   }
