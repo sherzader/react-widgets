@@ -19836,6 +19836,11 @@
 	              'li',
 	              { onClick: self.setFocused.bind(null, index) },
 	              header.title
+	            ),
+	            React.createElement(
+	              'article',
+	              null,
+	              header.content
 	            )
 	          );
 	        } else {
