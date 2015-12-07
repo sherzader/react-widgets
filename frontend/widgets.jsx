@@ -1,4 +1,5 @@
 var React = require('react'),
+    Clock = require('./clock_widget.jsx'),
     Weather = require('./weather_widget.jsx');
 
 var Widget = React.createClass({
@@ -31,6 +32,7 @@ var Widget = React.createClass({
             })
           }
         </ul>
+        < Clock />
         < Weather />
       </div>
     );
