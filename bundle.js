@@ -48,7 +48,7 @@
 	    ReactDOM = __webpack_require__(158),
 	    Widget = __webpack_require__(159);
 
-	var users = ["nancy", "frank", "narcy", "francis"];
+	var users = [{ name: "nancy", id: 1 }, { name: "frank", id: 2 }, { name: "narcy", id: 3 }, { name: "francis", id: 4 }];
 	document.addEventListener('DOMContentLoaded', function () {
 	    ReactDOM.render(React.createElement(Widget, { users: users }), document.getElementById('root'));
 	});
@@ -19644,10 +19644,11 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    Weather = __webpack_require__(160);
 
 	var Widget = React.createClass({
-	  displayName: "Widget",
+	  displayName: 'Widget',
 
 	  getInitialState: function () {
 	    return { searchString: "" };
@@ -19660,33 +19661,65 @@
 	  filteredUsers: function () {
 	    var regex = new RegExp(this.state.searchString);
 	    return this.props.users.filter(function (user) {
-	      return user.search(regex) > -1;
+	      return user.name.search(regex) > -1;
 	    });
 	  },
 
 	  render: function () {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
-	      React.createElement("input", { type: "text",
+	      React.createElement('input', { type: 'text',
 	        onChange: this.search,
 	        value: this.state.searchString }),
 	      React.createElement(
-	        "ul",
+	        'ul',
 	        null,
 	        this.filteredUsers().map(function (user) {
 	          return React.createElement(
-	            "li",
-	            null,
-	            user
+	            'li',
+	            { key: user.id },
+	            user.name
 	          );
 	        })
 	      )
-	    );
+	    ), React.createElement(Weather, null);
 	  }
 	});
 
 	module.exports = Widget;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Weather = React.createClass({
+	  displayName: 'Weather',
+
+	  getInitialState: function () {
+	    return { date: new Date() };
+	  },
+	  componentDidMount: function () {
+	    this.id = setInterval(this.tick, 1000);
+	  },
+	  componentWillUnmount: function () {
+	    // this.id
+	  },
+	  tick: function () {
+	    this.setState({ date: new Date() });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.state.date.toString()
+	    );
+	  }
+	});
+
+	module.exports = Weather;
 
 /***/ }
 /******/ ]);

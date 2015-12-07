@@ -1,8 +1,9 @@
-var React = require('react');
+var React = require('react'),
+    Weather = require('./weather_widget.jsx');
 
 var Widget = React.createClass({
   getInitialState: function(){
-    return {searchString: ""};
+    return { searchString: "" };
   },
 
   search: function(event){
@@ -12,7 +13,7 @@ var Widget = React.createClass({
   filteredUsers: function(){
     var regex = new RegExp(this.state.searchString);
     return this.props.users.filter(function(user){
-      return (user.search(regex) > -1);
+      return (user.name.search(regex) > -1);
     });
   },
 
@@ -26,11 +27,13 @@ var Widget = React.createClass({
 
         <ul>{
             this.filteredUsers().map(function(user){
-              return <li>{user}</li>;
+              return <li key={user.id}>{user.name}</li>;
             })
           }
         </ul>
-      </div>);
+      </div>,
+      < Weather />
+    );
   }
 });
 
