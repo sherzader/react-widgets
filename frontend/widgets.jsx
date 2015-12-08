@@ -8,8 +8,12 @@ var Widget = React.createClass({
     return { searchString: "" };
   },
 
-  search: function(event){
+  handleChange: function(event){
     this.setState({searchString: event.currentTarget.value});
+  },
+
+  handleClick: function(event){
+    this.setState({searchString: event.currentTarget.innerText});
   },
 
   filteredUsers: function(){
@@ -20,22 +24,24 @@ var Widget = React.createClass({
   },
 
   render: function(){
+    var that = this;
     return(
       <div>
         <Tabs tabs={this.props.tabs}/>
         <input type="text"
-               onChange = {this.search}
+               onChange = {this.handleChange}
                value={this.state.searchString}>
         </input>
 
         <ul>{
             this.filteredUsers().map(function(user){
-              return <li key={user.id}>{user.name}</li>;
+              return <li key={user.id}
+                         onClick={that.handleClick}>{user.name}</li>;
             })
           }
         </ul>
-        < Clock />
-        < Weather />
+        <Clock />
+        <Weather />
       </div>
     );
   }

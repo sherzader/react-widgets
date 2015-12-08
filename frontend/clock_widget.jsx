@@ -2,13 +2,13 @@ var React = require('react');
 
 var Clock = React.createClass({
   getInitialState: function(){
-    return { date: new Date()};
+    return { date: new Date() };
   },
   componentDidMount: function(){
     this.id = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function(){
-    // this.id
+    clearInterval(this.id);
   },
   tick: function(){
     this.setState({ date: new Date() });

@@ -14,7 +14,7 @@ var Tabs = React.createClass({
         this.props.tabs.map(function(header, index){
           if (self.state.focused === index){
             return <b key={header.id}>
-                    <li onClick={self.setFocused.bind(null, index)}>
+                    <li onClick={self.setFocused.bind(self, index)}>
                       {header.title}</li>
                     <article>{header.content}</article>
                   </b>;

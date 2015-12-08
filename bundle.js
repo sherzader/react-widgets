@@ -19657,8 +19657,12 @@
 	    return { searchString: "" };
 	  },
 
-	  search: function (event) {
+	  handleChange: function (event) {
 	    this.setState({ searchString: event.currentTarget.value });
+	  },
+
+	  handleClick: function (event) {
+	    this.setState({ searchString: event.currentTarget.innerText });
 	  },
 
 	  filteredUsers: function () {
@@ -19669,12 +19673,13 @@
 	  },
 
 	  render: function () {
+	    var that = this;
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(Tabs, { tabs: this.props.tabs }),
 	      React.createElement('input', { type: 'text',
-	        onChange: this.search,
+	        onChange: this.handleChange,
 	        value: this.state.searchString }),
 	      React.createElement(
 	        'ul',
@@ -19682,7 +19687,8 @@
 	        this.filteredUsers().map(function (user) {
 	          return React.createElement(
 	            'li',
-	            { key: user.id },
+	            { key: user.id,
+	              onClick: that.handleClick },
 	            user.name
 	          );
 	        })

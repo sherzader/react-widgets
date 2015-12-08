@@ -4,9 +4,6 @@ var Weather = React.createClass({
   getInitialState: function(){
     return { name: "", temp: "", humidity: "", wind: ""};
   },
-  componentWillUnmount: function(){
-
-  },
   getWeather: function(lat, lon){
     var weatherWidget = this;
     var request = new XMLHttpRequest();
@@ -19,8 +16,10 @@ var Weather = React.createClass({
       if (request.status >= 200 && request.status < 400) {
         var resp = JSON.parse(request.responseText);
         //certain weather attributes to display:
-        weatherWidget.setState({name: resp.name, temp: resp.main.temp,
-          humidity: resp.main.humidity, wind: resp.wind.speed});
+        weatherWidget.setState({
+          name: resp.name, temp: resp.main.temp,
+          humidity: resp.main.humidity, wind: resp.wind.speed
+        });
       } else {
         // We reached our target server, but it returned an error
         console.log("Server returned error");
