@@ -1,7 +1,7 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     Widget = require('./widgets.jsx');
-
+    
 var users = [ {name: "nancy", id: 0 },
               {name: "frank", id: 1 },
               {name: "narcy", id: 2},
